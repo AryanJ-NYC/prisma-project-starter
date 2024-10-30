@@ -1,7 +1,7 @@
 import { Router } from "express";
-import db from "../models/index.js";
-const { MicroPost } = db;
+import { PrismaClient } from "@prisma/client";
 
+const prisma = new PrismaClient();
 const router = Router();
 
 // This is a simple example for providing basic CRUD routes for
@@ -17,62 +17,60 @@ const router = Router();
 //    /api comes from the file /app.js
 //    /micro_posts comes from the file /controllers/index.js
 
-router.get("/", (req, res) => {
-  MicroPost.findAll({}).then((allPosts) => res.json(allPosts));
+router.get("/", async (req, res) => {
+  const allPosts = await prisma.microPost.findMany();
+  res.json(allPosts);
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   let { content } = req.body;
 
-  MicroPost.create({ content })
-    .then((newPost) => {
-      res.status(201).json(newPost);
-    })
-    .catch((err) => {
-      res.status(400).json(err);
+  try {
+    const newPost = await prisma.microPost.create({ data: { content } });
+    res.status(201).json(newPost);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const post = await prisma.microPost.findUnique({ where: { id } });
+    if (!post) {
+      return res.sendStatus(404);
+    }
+    res.json(post);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const { content } = req.body;
+
+  try {
+    const updatedPost = await prisma.microPost.update({
+      data: { content },
+      where: { id },
     });
+    res.json(updatedPost);
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
-router.get("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => {
   const { id } = req.params;
-  MicroPost.findByPk(id).then((mpost) => {
-    if (!mpost) {
-      return res.sendStatus(404);
-    }
 
-    res.json(mpost);
-  });
-});
-
-router.put("/:id", (req, res) => {
-  const { id } = req.params;
-  MicroPost.findByPk(id).then((mpost) => {
-    if (!mpost) {
-      return res.sendStatus(404);
-    }
-
-    mpost.content = req.body.content;
-    mpost
-      .save()
-      .then((updatedPost) => {
-        res.json(updatedPost);
-      })
-      .catch((err) => {
-        res.status(400).json(err);
-      });
-  });
-});
-
-router.delete("/:id", (req, res) => {
-  const { id } = req.params;
-  MicroPost.findByPk(id).then((mpost) => {
-    if (!mpost) {
-      return res.sendStatus(404);
-    }
-
-    mpost.destroy();
+  try {
+    await prisma.microPost.delete({ where: { id } });
     res.sendStatus(204);
-  });
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
 export default router;

@@ -2,7 +2,6 @@ import express from "express";
 import morgan from "morgan";
 import process from "node:process";
 import path from "node:path";
-import { sequelize } from "./models/index.js";
 import apiRouter from "./controllers/index.js";
 
 const app = express();
@@ -54,9 +53,6 @@ app.use(function (err, req, res, next) {
   });
   next();
 });
-
-// start database
-await sequelize.sync({ force: false });
 
 // start server
 app.listen(PORT, () => {

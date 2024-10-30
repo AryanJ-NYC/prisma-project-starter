@@ -1,6 +1,6 @@
 # CTP Project Starter
 
-A full stack web application starter template for building projects with React, Express.js, and Sequelize.js
+A full stack web application starter template for building projects with React, Express.js, and Prisma
 
 **Current version:** 4.0.0 (Oct 2024)
 
@@ -14,8 +14,8 @@ A full stack web application starter template for building projects with React, 
 _Backend API_
 
 - express.js (v4.21.1)
-- sequelize.js (v6.37.3)
-- PostgreSQL (v14+ recommended or use https://supabase.com/)
+- Prisma
+- PostgreSQL (v14+ recommended or use <https://supabase.com/>)
 
 _Frontend React Web Client_
 
@@ -34,7 +34,7 @@ Each team member will need to do this on their local machine and will need their
 You have two options:
 
 - **Option 1** (_RECOMMENDED_) - Use a hosted database
-  - Sign up to https://supabase.com/ and get a _FREE_ PostgreSQL database
+  - Sign up to <https://supabase.com/> and get a _FREE_ PostgreSQL database
 - **Option 2** (_ADVANCED_) - Install PostgreSQL locally
   - Check if you have PostgreSQL installed
     - ✅ versions 12-14 should work
@@ -68,8 +68,8 @@ npm install
 npm run dev
 ```
 
-- backend-api will launch at: http://localhost:8080
-- frontend-client will launch at: http://localhost:5173
+- backend-api will launch at: <http://localhost:8080>
+- frontend-client will launch at: <http://localhost:5173>
 
 > [!NOTE]
 > In production you will only deploy a single app. The React client will build into static files that will be served from the backend. The project has already been configured for this, but you are free to also deploy the backend and frontend separately if you wish.
@@ -118,7 +118,7 @@ Students can also get education credits for using Heroku through the [GitHub Stu
 - Add **Environment Variables**
   - key: `SESSION_SECRET` = value: click on the **Generate** button
   - key: `DATABASE_URL` = value: copy the "**Internal Database URL**" from your step 3.
-  * Do NOT add the `PORT` variable (Render will set this for you)
+  - Do NOT add the `PORT` variable (Render will set this for you)
 - Click the "**Create Web Service**" button
 - Your application will be live in 1-5 minutes
 
@@ -155,7 +155,7 @@ heroku create cool-appname
 heroku addons:create heroku-postgresql:hobby-dev
 ```
 
-> This will make your app accessible at https://cool-appname.herokuapp.com (_if the name is available_).
+> This will make your app accessible at <https://cool-appname.herokuapp.com> (_if the name is available_).
 
 > You only need to do this once per app
 
@@ -165,7 +165,7 @@ Any environment variables your app needs will be available through your heroku p
 
 > NOTE: _Heroku calls them **Config Vars**_
 
-- Go to the dashboard page here: https://dashboard.heroku.com/apps
+- Go to the dashboard page here: <https://dashboard.heroku.com/apps>
 - Click on the Settings tab
 - Click `Reveal Config Vars`
 - Add any environment variables you have in your `.env` file
